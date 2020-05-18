@@ -1,4 +1,4 @@
-package com.example.rest.demo.simplerest.model;
+package com.example.rest.demo.simplerest.controllers;
 
 import java.util.Set;
 
@@ -8,6 +8,8 @@ import javax.validation.executable.ExecutableValidator;
 import javax.validation.metadata.BeanDescriptor;
 
 import org.springframework.validation.Errors;
+
+import com.example.rest.demo.simplerest.model.User;
 
 public class UserValidator implements Validator {
 
@@ -21,7 +23,7 @@ public class UserValidator implements Validator {
       User user = (User) target;
 
       if(user.getUserName()== null) {
-          errors.rejectValue("name", "your_error_code");
+          errors.rejectValue("Username", "your_error_code");
       }
 
       // do "complex" validation here

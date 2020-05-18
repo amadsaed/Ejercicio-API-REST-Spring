@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import com.example.rest.demo.simplerest.controllers.UserNotFoundException;
 import com.example.rest.demo.simplerest.model.User;
 import com.example.rest.demo.simplerest.repository.UserRepository;
 
@@ -41,11 +44,34 @@ public class UserService {
 	
 	public User get(long userId) {
 		
-		return userRepository.findById(userId).orElse(null);
+		return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
 	}
 	
 	
-	
+
+    public User updateUser (User user) {
+    	
+    	 return userRepository.save(user);
+    			 
+    	
+    }
+    
+    
+    
+    public User deleteUser( Long userId) { 
+    	
+    	User user = userRepository.findById(userId)
+                .map( userFounded -> {
+                	userRepository.deleteById(userId);
+                    return userFounded;
+                })
+                
+                .orElseThrow(() -> new UserNotFoundException(userId));
+    	
+    	return user;
+
+    }
+
 	/*
 	public Map<String ,Object> get(){
         Map<String,Object> dto = new LinkedHashMap<>();
